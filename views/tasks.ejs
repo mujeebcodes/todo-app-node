@@ -1,0 +1,46 @@
+<%- include('partials/header'); -%>
+<div class="container mt-5">
+  <h1>Your Todos</h1>
+  <% if (locals.messages && locals.messages.error) { %>
+  <div class="alert alert-danger" role="alert">
+    <%= locals.messages.error %>
+  </div>
+  <% } %> <% if (locals.messages && locals.messages.success) { %>
+  <div class="alert alert-success" role="alert">
+    <%= locals.messages.success %>
+  </div>
+  <% } %>
+  <form action="/tasks" method="POST" class="mb-3">
+    <div class="input-group">
+      <input
+        type="text"
+        class="form-control"
+        name="title"
+        placeholder="New Task"
+        required
+      />
+      <button type="submit" class="btn btn-primary">Add Task</button>
+    </div>
+  </form>
+  <ul class="list-group">
+    <% tasks.forEach(task => { %> <% if (task.state === 'pending') { %> <% } %>
+    <li class="list-group-item">
+      <%= task.title %> <% if (task.state === 'pending') { %>
+      <a
+        href="/tasks/<%= task._id %>/complete"
+        class="btn btn-success btn-sm float-end"
+        >Complete</a
+      >
+      <% } else if (task.state === 'completed') { %>
+      <span class="badge bg-success">Completed</span>
+      <a
+        href="/tasks/<%= task._id %>/delete"
+        class="btn btn-danger btn-sm float-end"
+        >Delete</a
+      >
+      <% } %>
+    </li>
+    <% }); %>
+  </ul>
+</div>
+<%- include('partials/footer'); -%>
